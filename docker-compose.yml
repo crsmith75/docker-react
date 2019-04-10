@@ -1,0 +1,19 @@
+version: '3'
+services:
+  web:
+    build: #Specifies to look in current working directory to find dockerfile to run
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - /app/node_modules
+      - .:/app
+  tests: # A second container solely responsible for running tests
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ["npm", "run", "test"]
